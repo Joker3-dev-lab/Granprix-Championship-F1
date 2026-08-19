@@ -57,13 +57,15 @@
       text-align: center;
       margin: 15px 0;
       background-color: #15151e;
-      padding: 10px;
+      padding: 14px;
       border-radius: 4px;
       border: 1px solid #222;
     }
     .container-mapa img {
       max-width: 100%;
-      height: 110px;
+      height: 180px;
+      display: block;
+      margin: 0 auto;
       object-fit: contain;
       /* Inverte a cor do mapa preto para branco para combinar com o tema escuro */
       filter: invert(1) brightness(1.8); 
@@ -173,6 +175,10 @@
         <option value="suzuka">🇯🇵 GP do Japão (Suzuka)</option>
         <option value="monza">🇮🇹 GP da Itália (Monza)</option>
         <option value="monaco">🇲🇨 GP de Mônaco (Monte Carlo)</option>
+        <option value="franca">🇫🇷 GP da França (Paul Ricard)</option>
+        <option value="espanha">🇪🇸 GP da Espanha (Barcelona)</option>
+        <option value="alemanha">🇩🇪 GP da Alemanha (Hockenheimring)</option>
+        <option value="inglaterra">🇬🇧 GP da Inglaterra (Silverstone)</option>
       </select>
     </div>
 
@@ -181,7 +187,7 @@
     
     <!-- MAPA DA PISTA (DINÂMICO) -->
     <div class="container-mapa">
-      <img id="mapa-pista" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace_2020.svg" alt="Mapa do Circuito">
+      <img id="mapa-pista" src="https://upload.wikimedia.org/wikipedia/commons/5/5c/Circuit_Interlagos.svg" alt="Mapa do Circuito">
     </div>
 
     <div class="info-grid">
@@ -330,16 +336,28 @@
 
     if (seletor === 'interlagos') {
       elementoNome.textContent = '🇧🇷 Autódromo José Carlos Pace';
-      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/f/f8/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace_2020.svg';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/5/5c/Circuit_Interlagos.svg';
     } else if (seletor === 'suzuka') {
       elementoNome.textContent = '🇯🇵 Circuito Internacional de Suzuka';
-      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Suzuka_circuit_map_2009.svg';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/e/ec/Suzuka_circuit_map--2005.svg';
     } else if (seletor === 'monza') {
       elementoNome.textContent = '🇮🇹 Autodromo Nazionale Monza';
-      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/2/23/Monza_track_map.svg';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/5/56/Circuit_Monza.svg';
     } else if (seletor === 'monaco') {
       elementoNome.textContent = '🇲🇨 Circuit de Monaco';
-      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/3/36/Circuit_Monaco.svg';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/5/56/Circuit_Monaco.svg';
+    } else if (seletor === 'franca') {
+      elementoNome.textContent = '🇫🇷 Circuito Paul Ricard';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/d/d0/Circuit_Paul_Ricard_2020_layout_map.svg';
+    } else if (seletor === 'espanha') {
+      elementoNome.textContent = '🇪🇸 Circuito de Barcelona-Catalunha';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/f/f6/F1_circuits_2014-2018_-_Circuit_de_Barcelona-Catalunya_%28version_2%29.svg';
+    } else if (seletor === 'alemanha') {
+      elementoNome.textContent = '🇩🇪 Circuito de Hockenheimring';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/2/20/Circuit_Hockenheimring-1994.svg';
+    } else if (seletor === 'inglaterra') {
+      elementoNome.textContent = '🇬🇧 Circuito de Silverstone';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/c/ca/Circuit_Silverstone_2011.svg';
     }
   }
 
