@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>F1 - Credenciamento Oficial GP</title>
+  <style>
+    body {
+      background-color: #15151e;
+      color: #ffffff;
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+    .f1-card {
+      background-color: #1f1f27;
+      border-top: 5px solid #e10600; /* Vermelho Oficial F1 */
+      border-radius: 8px;
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    }
+    
+    /* PAINEL SUPERIOR DO AUTÓDROMO */
+    .painel-evento {
+      background-color: #0b0b0e;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 15px;
+        margin-bottom: 20px;
+    }
+    .seletor-gp {
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .seletor-gp label {
+      font-size: 11px;
+      color: #aaa;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .nome-autodromo {
+      color: #e10600;
+      font-size: 16px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin: 10px 0;
+      text-align: center;
+      letter-spacing: 1px;
+    }
+    
+    /* CONTAINER DO MAPA DA PISTA */
+    .container-mapa {
+      text-align: center;
+      margin: 15px 0;
+      background-color: #15151e;
+      padding: 10px;
+      border-radius: 4px;
+      border: 1px solid #222;
+    }
+    .container-mapa img {
+      max-width: 100%;
+      height: 110px;
+      object-fit: contain;
+      /* Inverte a cor do mapa preto para branco para combinar com o tema escuro */
+      filter: invert(1) brightness(1.8); 
+    }
+
+    .info-grid {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px dashed #333;
+      padding-top: 10px;
+      font-size: 13px;
+    }
+    .info-item {
+      text-align: center;
+    }
+    .info-label {
+      color: #aaa;
+      font-size: 10px;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 3px;
+    }
+    .relogio-digital {
+      font-family: 'Courier New', Courier, monospace;
+      font-weight: bold;
+      color: #00ff66; /* Verde Cronômetro */
+    }
+
+    h2 {
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-top: 0;
+      color: #ffffff;
+      font-size: 18px;
+      text-align: center;
+    }
+    .campo {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+    }
+    input[type="text"], 
+    input[type="number"], 
+    select {
+      width: 100%;
+      padding: 10px;
+      background: #2b2b36;
+      border: 1px solid #444;
+      color: #fff;
+      border-radius: 4px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+    input:focus, select:focus {
+      outline: none;
+      border-color: #e10600;
+    }
+    .dica-campo {
+      font-size: 11px;
+      color: #aaa;
+      margin-top: 4px;
+      display: block;
+    }
+    .opcoes-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 5px;
+    }
+    .opcao-inline label {
+      display: inline;
+      font-weight: normal;
+      cursor: pointer;
+    }
+    .btn-submit {
+      width: 100%;
+      background-color: #e10600;
+      color: white;
+      border: none;
+      padding: 12px;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    .btn-submit:hover {
+      background-color: #b30500;
+    }
+  </style>
+</head>
+<body>
+
+<div class="f1-card">
+
+  <!-- CABEÇALHO DO AUTÓDROMO E SESSÃO -->
+  <div class="painel-evento">
+    
+    <!-- SELETOR DO ETAPA / GRAND PRIX -->
+    <div class="seletor-gp">
+      <label for="seletor-autodromo">Selecione a Etapa do Calendário:</label>
+      <select id="seletor-autodromo" onchange="trocarAutodromo()">
+        <option value="interlagos">🇧🇷 GP do Brasil (Interlagos)</option>
+        <option value="suzuka">🇯🇵 GP do Japão (Suzuka)</option>
+        <option value="monza">🇮🇹 GP da Itália (Monza)</option>
+        <option value="monaco">🇲🇨 GP de Mônaco (Monte Carlo)</option>
+      </select>
+    </div>
+
+    <!-- BANDEIRA + NOME DO AUTÓDROMO (DINÂMICO) -->
+    <div id="nome-autodromo" class="nome-autodromo">🇧🇷 Autódromo José Carlos Pace</div>
+    
+    <!-- MAPA DA PISTA (DINÂMICO) -->
+    <div class="container-mapa">
+      <img id="mapa-pista" src="https://upload.wikimedia.org/wikipedia/commons/f/f8/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace_2020.svg" alt="Mapa do Circuito">
+    </div>
+
+    <div class="info-grid">
+      <div class="info-item">
+        <span class="info-label">Data do Evento</span>
+        <span id="data-evento">--/--/----</span>
+      </div>
+
+      <div class="info-item">
+        <span class="info-label">Hora Local</span>
+        <span id="relogio-autodromo" class="relogio-digital">00:00:00</span>
+      </div>
+
+      <div class="info-item">
+        <span class="info-label">Ingresso Inicial</span>
+        <span style="color: #ffcc00; font-weight: bold;">R$ 850,00</span>
+      </div>
+    </div>
+  </div>
+
+  <h2>🏎️ Perfil e Credenciamento do Piloto</h2>
+  
+  <form action="/salvar-perfil" method="POST">
+    
+    <!-- 1. NOME DO PILOTO -->
+    <div class="campo">
+      <label for="piloto-nome">Nome do Piloto:</label>
+      <input type="text" id="piloto-nome" name="nome" placeholder="Ex: Ayrton Senna" required>
+    </div>
+
+    <!-- 2. ESCUDERIA -->
+    <div class="campo">
+      <label for="piloto-escuderia">Escuderia / Equipe:</label>
+      <input type="text" id="piloto-escuderia" name="escuderia" placeholder="Ex: McLaren" required>
+    </div>
+
+    <!-- 3. PAÍS DE ORIGEM -->
+    <div class="campo">
+      <label for="piloto-pais">País de Origem (Country):</label>
+      <select id="piloto-pais" name="pais" required>
+        <option value="" disabled selected>Selecione um país...</option>
+        <option value="BR">Brasil 🇧🇷</option>
+        <option value="GB">Reino Unido 🇬🇧</option>
+        <option value="DE">Alemanha 🇩🇪</option>
+        <option value="NL">Holanda 🇳🇱</option>
+        <option value="IT">Itália 🇮🇹</option>
+        <option value="ES">Espanha 🇪🇸</option>
+        <option value="MC">Mônaco 🇲🇨</option>
+        <option value="MX">México 🇲🇽</option>
+      </select>
+    </div>
+
+    <!-- 4. INGRESSO / SETOR DO AUTÓDROMO -->
+    <div class="campo">
+      <label for="setor-ingresso">🎟️ Setor de Acesso / Ingresso Extra:</label>
+      <select id="setor-ingresso" name="setor_ingresso" required>
+        <option value="setor-g">Setor G (Arquibancada Geral) - R$ 850,00</option>
+        <option value="setor-a">Setor A (Reta dos Boxes) - R$ 1.250,00</option>
+        <option value="setor-m">Setor M (S do Senna) - R$ 1.980,00</option>
+        <option value="paddock">Paddock Club (VIP / Open Bar) - R$ 15.800,00</option>
+      </select>
+    </div>
+
+    <!-- 5. NÚMERO DO CARRO -->
+    <div class="campo">
+      <label for="numero-carro">Número do Carro (#):</label>
+      <input type="number" id="numero-carro" name="numero" min="1" max="99" placeholder="1 a 99" required>
+    </div>
+
+    <!-- 6. MELHOR TEMPO NA QUALI -->
+    <div class="campo">
+      <label for="melhor-tempo">⏱️ Melhor Tempo na Qualificação (Quali):</label>
+      <input 
+        type="text" 
+        id="melhor-tempo" 
+        name="melhor_tempo" 
+        placeholder="1:10.540" 
+        pattern="^[0-9]{1,2}:[0-5][0-9]\.[0-9]{3}$" 
+        title="Digite no formato de tempo da F1 (Ex: 1:10.540)"
+      >
+      <span class="dica-campo">Formato esperado: Minutos:Segundos.Milissegundos (ex: 1:12.272)</span>
+    </div>
+
+    <!-- 7. BOTÕES RADIO (Apenas UMA Escolha) -->
+    <div class="campo">
+      <label>Estratégia de Pneus Inicial:</label>
+      <div class="opcoes-group">
+        <div class="opcao-inline">
+          <input type="radio" id="pneu-macio" name="estrategia_pneu" value="macio" checked>
+          <label for="pneu-macio">🔴 Macio</label>
+        </div>
+        <div class="opcao-inline">
+          <input type="radio" id="pneu-medio" name="estrategia_pneu" value="medio">
+          <label for="pneu-medio">🟡 Médio</label>
+        </div>
+        <div class="opcao-inline">
+          <input type="radio" id="pneu-duro" name="estrategia_pneu" value="duro">
+          <label for="pneu-duro">⚪ Duro</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8. CHECKBOX (Múltiplas Escolhas) -->
+    <div class="campo">
+      <label>Sistemas Ativos no Carro:</label>
+      <div class="opcao-inline">
+        <input type="checkbox" id="sistema-drs" name="sistemas" value="drs" checked>
+        <label for="sistema-drs">DRS (Asa Traseira Móvel)</label>
+      </div>
+      <br>
+      <div class="opcao-inline">
+        <input type="checkbox" id="sistema-ers" name="sistemas" value="ers" checked>
+        <label for="sistema-ers">ERS (Recuperação de Energia)</label>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-submit">Confirmar Credenciamento 🏁</button>
+
+  </form>
+</div>
+
+<!-- JAVASCRIPT: DATA, HORA E TROCA DE AUTÓDROMO -->
+<script>
+  // 1. Função para atualizar Data e Hora
+  function atualizarDataEHora() {
+    const agora = new Date();
+    
+    // Atualiza a Hora
+    const horas = String(agora.getHours()).padStart(2, '0');
+    const minutos = String(agora.getMinutes()).padStart(2, '0');
+    const segundos = String(agora.getSeconds()).padStart(2, '0');
+    document.getElementById('relogio-autodromo').textContent = `${horas}:${minutos}:${segundos}`;
+    
+    // Atualiza a Data
+    const dia = String(agora.getDate()).padStart(2, '0');
+    const mes = String(agora.getMonth() + 1).padStart(2, '0');
+    const ano = agora.getFullYear();
+    document.getElementById('data-evento').textContent = `${dia}/${mes}/${ano}`;
+  }
+
+  // 2. Função para alternar Bandeira, Autódromo e Mapa
+  function trocarAutodromo() {
+    const seletor = document.getElementById('seletor-autodromo').value;
+    const elementoNome = document.getElementById('nome-autodromo');
+    const elementoMapa = document.getElementById('mapa-pista');
+
+    if (seletor === 'interlagos') {
+      elementoNome.textContent = '🇧🇷 Autódromo José Carlos Pace';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/f/f8/Aut%C3%B3dromo_Jos%C3%A9_Carlos_Pace_2020.svg';
+    } else if (seletor === 'suzuka') {
+      elementoNome.textContent = '🇯🇵 Circuito Internacional de Suzuka';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/1/1a/Suzuka_circuit_map_2009.svg';
+    } else if (seletor === 'monza') {
+      elementoNome.textContent = '🇮🇹 Autodromo Nazionale Monza';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/2/23/Monza_track_map.svg';
+    } else if (seletor === 'monaco') {
+      elementoNome.textContent = '🇲🇨 Circuit de Monaco';
+      elementoMapa.src = 'https://upload.wikimedia.org/wikipedia/commons/3/36/Circuit_Monaco.svg';
+    }
+  }
+
+  // Inicialização
+  atualizarDataEHora();
+  setInterval(atualizarDataEHora, 1000);
+</script>
+
+</body>
+</html>
